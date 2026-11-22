@@ -1,4 +1,4 @@
-var commands = [
+var map = [
     {
         "L?":0,
         "G?":0,
