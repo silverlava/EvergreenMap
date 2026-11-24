@@ -13,7 +13,7 @@ function parseInput(text) {
     let command = parts[0];
     let input = parts.slice(1).join(" ");
 
-    command.toLowerCase();
+    command = command.toLowerCase();
     if (["look","l","x","watch","observe","stare","gaze","scan","inspect","study"].includes(command)) {command = "look";}
     else if (["move","m","walk","run","go","climb","jump","enter","step"].includes(command)) {command = "move";}
     else if (["take","t","grab","get"].includes(command)) {command = "take";}
@@ -23,8 +23,8 @@ function parseInput(text) {
     //!!! Add check for inventory command, and possibly admin commands
     else {command = "none";}
 
-    
-    input.toLowerCase();
+
+    input = input.toLowerCase();
     if (input === "") {input = "-"}
 
     return {
@@ -35,12 +35,12 @@ function parseInput(text) {
 
 
 function mapFun(inputObject) {
-    const command = inputObject.command
-    const input = inputObject.input
+    const command = inputObject.command;
+    const input = inputObject.input;
 
     if (command === "none") {return "That is not a valid command.";}
 
-    const rowObjects = findCommands(command, input)
+    const rowObjects = findCommands(command, input);
 
     if (rowObjects.length > 0) {
         return rowObjects[0].Output;
@@ -63,10 +63,16 @@ form.addEventListener("submit", function(event) {
     event.preventDefault();
     
     const input = document.getElementById("text-input").value;
-    const inputObject = parseInput(input) //!!! Add input safety checks. Did they submit an actual command? Did they even use a space? Inventory?
+    const inputObject = parseInput(input); //!!! Add input safety checks. Did they submit an actual command? Did they even use a space? Inventory?
 
-    const output = mapFun(inputObject)
-    console.log(output)
+    const output = mapFun(inputObject);
+
+    const outputLog = document.getElementById("output-log");
+
+    const pre = document.createElement("pre");
+    pre.textContent = `${input}\n${output}`;
+
+    outputLog.append(pre);
 
     form.reset();
 
