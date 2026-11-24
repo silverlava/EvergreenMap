@@ -1,3 +1,15 @@
+function newGame() {
+    const state = {
+        L: 1,
+        G: [],
+        C: [],
+        I: [],
+    }
+
+    return state
+}
+
+
 function findCommands(command, input) {
 
     const outputs = map.filter(
@@ -40,10 +52,27 @@ function mapFun(inputObject) {
 
     if (command === "none") {return "That is not a valid command.";}
 
-    const rowObjects = findCommands(command, input);
+    let rowObjects = findCommands(command, input);
 
-    if (rowObjects.length > 0) {
-        return rowObjects[0].Output;
+    rowObjects = rowObjects.filter(row => row.Lq === state.L || row.Lq === 0); //Filters out rows with the wrong location
+    rowObjects = rowObjects.filter(row => state.G.includes(row.Gq) || row.Gq === 0); //Filters out rows where they don't have the required Global Condition
+    rowObjects = rowObjects.filter(row => state.C.includes(row.Cq) || row.Cq === 0); //Filters out rows where they don't have the required Condition
+    rowObjects = rowObjects.filter(row => state.I.includes(row.Iq) || row.Iq === 0); //Filters out rows where they don't have the required Item
+
+    rowObjects.sort((a,b) => b.Pq - a.Pq); //Sorts the rows by priority
+
+    if (rowObjects.length !== 0) {
+        result = rowObjects[0];
+
+        if (result.L !== 0) {state.L = result.L} //Possible Location change
+        if (result.G > 0 && !(state.G.includes(result.G))) {state.G.push(result.G);} //Possible Global Condition added
+        if (result.G < 0 && (state.G.includes(result.G))) {state.G.filter(g => g !== result.G);} //Possible Global Condition removed
+        if (result.C > 0 && !(state.C.includes(result.C))) {state.C.push(result.C);} //Possible Condition added
+        if (result.C < 0 && (state.C.includes(result.C))) {state.C.filter(c => c !== result.C);} //Possible Condition removed
+        if (result.I > 0 && !(state.I.includes(result.I))) {state.I.push(result.I);} //Possible Item added
+        if (result.I < 0 && (state.I.includes(result.I))) {state.I.filter(i => i !== result.I);} //Possible Global Condition removed
+
+        return result.Output;
     }
 
     //No command found
@@ -73,7 +102,18 @@ form.addEventListener("submit", function(event) {
     pre.textContent = `${input}\n${output}`;
 
     outputLog.append(pre);
+    outputLog.scrollTop = outputLog.scrollHeight;
 
-    form.reset();
+    form.reset(); //Clear the text box
+
+    localStorage.setItem("save",JSON.stringify(state));
 
 })
+
+
+// Upon page load
+const saveData = localStorage.getItem("save");
+
+let state = saveData !== null ? JSON.parse(saveData) : newGame(); //Ternary operation, either converts the string to an object or gets a new game object
+
+
