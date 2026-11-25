@@ -72,7 +72,14 @@ function mapFun(inputObject) {
     if (rowObjects.length !== 0) {
         result = rowObjects[0];
 
-        if (result.L !== 0) {state.L = result.L} //Possible Location change
+        if (result.L !== 0) { //Possible Location change
+            state.L = result.L;
+            
+            document.body.style.backgroundColor = mapBackgroundColor[state.L];
+            document.getElementById("output-log").style.color = mapTextColor[state.L];
+            document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
+            document.getElementById("text-input").style.color = mapTextColor[state.L];
+        } 
         if (result.G > 0 && !(state.G.includes(result.G))) {state.G.push(result.G);} //Possible Global Condition added
         if (result.G < 0 && (state.G.includes(result.G))) {state.G.filter(g => g !== result.G);} //Possible Global Condition removed
         if (result.C > 0 && !(state.C.includes(result.C))) {state.C.push(result.C);} //Possible Condition added
@@ -107,7 +114,7 @@ inputForm.addEventListener("submit", function(event) {
     const outputLog = document.getElementById("output-log");
 
     const pre = document.createElement("pre");
-    pre.textContent = `${input}\n${output}`;
+    pre.textContent = `> ${input}\n${output}`;
 
     outputLog.append(pre);
     outputLog.scrollTop = outputLog.scrollHeight;
@@ -139,4 +146,12 @@ const saveData = localStorage.getItem("save");
 
 let state = saveData !== null ? JSON.parse(saveData) : newGame(); //Ternary operation, either converts the string to an object or gets a new game object
 
+document.body.style.backgroundColor = mapBackgroundColor[state.L];
+document.getElementById("output-log").style.color = mapTextColor[state.L];
+document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
+document.getElementById("text-input").style.color = mapTextColor[state.L];
 
+// TEMPORARY
+state.G.push(1);
+state.G.push(2);
+state.G.push(3);
