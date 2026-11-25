@@ -74,18 +74,18 @@ function mapFun(inputObject) {
 
         if (result.L !== 0) { //Possible Location change
             state.L = result.L;
-            
+
             document.body.style.backgroundColor = mapBackgroundColor[state.L];
             document.getElementById("output-log").style.color = mapTextColor[state.L];
             document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
             document.getElementById("text-input").style.color = mapTextColor[state.L];
-        } 
+        }
         if (result.G > 0 && !(state.G.includes(result.G))) {state.G.push(result.G);} //Possible Global Condition added
-        if (result.G < 0 && (state.G.includes(result.G))) {state.G.filter(g => g !== result.G);} //Possible Global Condition removed
+        if (result.G < 0 && (state.G.includes(-result.G))) {state.G = state.G.filter(g => g !== -result.G);} //Possible Global Condition removed
         if (result.C > 0 && !(state.C.includes(result.C))) {state.C.push(result.C);} //Possible Condition added
-        if (result.C < 0 && (state.C.includes(result.C))) {state.C.filter(c => c !== result.C);} //Possible Condition removed
+        if (result.C < 0 && (state.C.includes(-result.C))) {state.C = state.C.filter(c => c !== -result.C);} //Possible Condition removed
         if (result.I > 0 && !(state.I.includes(result.I))) {state.I.push(result.I);} //Possible Item added
-        if (result.I < 0 && (state.I.includes(result.I))) {state.I.filter(i => i !== result.I);} //Possible Global Condition removed
+        if (result.I < 0 && (state.I.includes(-result.I))) {state.I = state.I.filter(i => i !== -result.I);} //Possible Item removed
 
         return result.Output;
     }
