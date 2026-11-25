@@ -1,3 +1,27 @@
+var itemList = {
+    1:"Crystal Key",
+    2:"Neon Flower",
+    3:"Glowing Mushroom",
+    4:"Fire Flower",
+    5:"Frost Flower",
+    6:"Dark Clover",
+    7:"Flashlight",
+    8:"Rope",
+    9:"Compass",
+    10:"Gloves",
+    11:"Snow Pea",
+    12:"Inferno Pepper",
+    13:"Wooden Key",
+    14:"Iron Key",
+    15:"Explosive",
+    16:"Climber",
+    17:"Drill",
+    18:"Mask",
+    19:"Dark Mushroom",
+    20:"Dark Frost Flower",
+    21:"Dark Stone"
+};
+
 var map = [
     {
         "Lq":0,

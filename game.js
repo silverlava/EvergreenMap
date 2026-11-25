@@ -32,7 +32,7 @@ function parseInput(text) {
     else if (["use","u","utilize","apply"].includes(command)) {command = "use";}
     else if (["talk"].includes(command)) {command = "talk";}
     else if (["ask","a","question","query"].includes(command)) {command = "ask";}
-    //!!! Add check for inventory command, and possibly admin commands
+    else if (["items","i","inventory"].includes(command)) {command = "items";}
     else {command = "none";}
 
 
@@ -51,6 +51,14 @@ function mapFun(inputObject) {
     const input = inputObject.input;
 
     if (command === "none") {return "That is not a valid command.";}
+
+    //items command
+    if (command === "items") {
+        state.I.sort((a, b) => (a - b)); //Sort the list of items by ID
+        itemsString = state.I.map(n => itemList[n]).join(", ");
+        if (itemsString === "") {return "None";}
+        else {return itemsString;}
+    }
 
     let rowObjects = findCommands(command, input);
 
@@ -92,7 +100,7 @@ form.addEventListener("submit", function(event) {
     event.preventDefault();
     
     const input = document.getElementById("text-input").value;
-    const inputObject = parseInput(input); //!!! Add input safety checks. Did they submit an actual command? Did they even use a space? Inventory?
+    const inputObject = parseInput(input);
 
     const output = mapFun(inputObject);
 
