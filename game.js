@@ -95,8 +95,8 @@ function mapFun(inputObject) {
 }
 
 
-const form = document.getElementById("input-form")
-form.addEventListener("submit", function(event) {
+const inputForm = document.getElementById("input-form")
+inputForm.addEventListener("submit", function(event) {
     event.preventDefault();
     
     const input = document.getElementById("text-input").value;
@@ -112,11 +112,26 @@ form.addEventListener("submit", function(event) {
     outputLog.append(pre);
     outputLog.scrollTop = outputLog.scrollHeight;
 
-    form.reset(); //Clear the text box
+    inputForm.reset(); //Clear the text box
 
     localStorage.setItem("save",JSON.stringify(state));
 
 })
+
+//Resetting the game
+const resetForm = document.getElementById("reset-form")
+resetForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    state = newGame(); //Reset the state
+
+    document.getElementById("output-log").innerHTML = ""; //Clear output log
+    document.getElementById("text-input").focus() //Refocus on text box (so they don't have to click it to type)
+
+    
+    localStorage.setItem("save",JSON.stringify(state));
+})
+
 
 
 // Upon page load
