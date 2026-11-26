@@ -23,7 +23,7 @@ var itemList = {
 };
 
 var mapBackgroundColor = {
-    1:"#ffbaad",
+    1:"#c0c0c0",
     2:"#c0c0c0",
     3:"#c0c0c0",
     4:"#c0c0c0",

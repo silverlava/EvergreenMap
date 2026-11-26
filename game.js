@@ -120,6 +120,7 @@ inputForm.addEventListener("submit", function(event) {
     outputLog.scrollTop = outputLog.scrollHeight;
 
     inputForm.reset(); //Clear the text box
+    document.getElementById("text-input").placeholder = ""; //Remove "look" placeholder
 
     localStorage.setItem("save",JSON.stringify(state));
 
@@ -135,7 +136,13 @@ resetForm.addEventListener("submit", function(event) {
     document.getElementById("output-log").innerHTML = ""; //Clear output log
     document.getElementById("text-input").focus() //Refocus on text box (so they don't have to click it to type)
 
-    
+    document.body.style.backgroundColor = mapBackgroundColor[state.L];
+    document.getElementById("output-log").style.color = mapTextColor[state.L];
+    document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
+    document.getElementById("text-input").style.color = mapTextColor[state.L];
+
+    document.getElementById("text-input").placeholder = "look"; //Add "look" placeholder
+
     localStorage.setItem("save",JSON.stringify(state));
 })
 
