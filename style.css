@@ -11,6 +11,15 @@ body {
     margin: 0 auto;
 }
 
+#button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+}
+
 input {
     background: transparent;
     border-style: solid;

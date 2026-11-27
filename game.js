@@ -102,7 +102,7 @@ function mapFun(inputObject) {
 }
 
 
-const inputForm = document.getElementById("input-form")
+const inputForm = document.getElementById("input-form");
 inputForm.addEventListener("submit", function(event) {
     event.preventDefault();
     
@@ -127,7 +127,7 @@ inputForm.addEventListener("submit", function(event) {
 })
 
 //Resetting the game
-const resetForm = document.getElementById("reset-form")
+const resetForm = document.getElementById("reset-form");
 resetForm.addEventListener("submit", function(event) {
     event.preventDefault();
 
@@ -146,6 +146,77 @@ resetForm.addEventListener("submit", function(event) {
     localStorage.setItem("save",JSON.stringify(state));
 })
 
+//Expansion 0 Button
+const expansion0Form = document.getElementById("expansion-0-form");
+expansion0Form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    state.G = state.G.filter(g => g !== 1);
+    state.G = state.G.filter(g => g !== 2);
+    state.G = state.G.filter(g => g !== 3);
+
+    const outputLog = document.getElementById("output-log");
+    const pre = document.createElement("pre");
+    pre.textContent = `Set map to no expansions.`;
+    outputLog.append(pre);
+    outputLog.scrollTop = outputLog.scrollHeight;
+
+    document.getElementById("text-input").focus() //Refocus on text box
+})
+
+//Expansion 1 Button
+const expansion1Form = document.getElementById("expansion-1-form");
+expansion1Form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    if (!state.G.includes(1)) {state.G.push(1);}
+    state.G = state.G.filter(g => g !== 2);
+    state.G = state.G.filter(g => g !== 3);
+
+    const outputLog = document.getElementById("output-log");
+    const pre = document.createElement("pre");
+    pre.textContent = `Set map to expansion 1.`;
+    outputLog.append(pre);
+    outputLog.scrollTop = outputLog.scrollHeight;
+
+    document.getElementById("text-input").focus() //Refocus on text box
+})
+
+//Expansion 2 Button
+const expansion2Form = document.getElementById("expansion-2-form");
+expansion2Form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    if (!state.G.includes(1)) {state.G.push(1);}
+    if (!state.G.includes(2)) {state.G.push(2);}
+    state.G = state.G.filter(g => g !== 3);
+
+    const outputLog = document.getElementById("output-log");
+    const pre = document.createElement("pre");
+    pre.textContent = `Set map to expansion 2.`;
+    outputLog.append(pre);
+    outputLog.scrollTop = outputLog.scrollHeight;
+
+    document.getElementById("text-input").focus() //Refocus on text box
+})
+
+//Expansion 3 Button
+const expansion3Form = document.getElementById("expansion-3-form");
+expansion3Form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    if (!state.G.includes(1)) {state.G.push(1);}
+    if (!state.G.includes(2)) {state.G.push(2);}
+    if (!state.G.includes(3)) {state.G.push(3);}
+
+    const outputLog = document.getElementById("output-log");
+    const pre = document.createElement("pre");
+    pre.textContent = `Set map to expansion 3.`;
+    outputLog.append(pre);
+    outputLog.scrollTop = outputLog.scrollHeight;
+
+    document.getElementById("text-input").focus() //Refocus on text box
+})
 
 
 // Upon page load
@@ -157,8 +228,3 @@ document.body.style.backgroundColor = mapBackgroundColor[state.L];
 document.getElementById("output-log").style.color = mapTextColor[state.L];
 document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
 document.getElementById("text-input").style.color = mapTextColor[state.L];
-
-// TEMPORARY
-state.G.push(1);
-state.G.push(2);
-state.G.push(3);
