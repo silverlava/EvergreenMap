@@ -33,6 +33,7 @@ function parseInput(text) {
     else if (["talk"].includes(command)) {command = "talk";}
     else if (["ask","a","question","query"].includes(command)) {command = "ask";}
     else if (["items","i","inventory"].includes(command)) {command = "items";}
+    else if (["tp"].includes(command)) {command = "tp";}
     else {command = "none";}
 
 
@@ -43,6 +44,13 @@ function parseInput(text) {
         command: command,
         input: input
     };
+}
+
+function setBackgroundColor(L) {
+    document.body.style.backgroundColor = mapBackgroundColor[L];
+    document.getElementById("output-log").style.color = mapTextColor[L];
+    document.getElementById("text-input").style.borderColor = mapTextColor[L];
+    document.getElementById("text-input").style.color = mapTextColor[L];
 }
 
 
@@ -60,6 +68,17 @@ function mapFun(inputObject) {
         else {return itemsString;}
     }
 
+    //tp command
+    if (command === "tp") {
+        const n = Number(input);
+        if (Number.isInteger(n) && n >= 1 && n <= 63) {
+            state.L = n;
+            setBackgroundColor(state.L);
+            return `Teleported to Location ${n}.`;
+        }
+        else {return "That is not a valid location."}
+    }
+
     let rowObjects = findCommands(command, input);
 
     rowObjects = rowObjects.filter(row => row.Lq === state.L || row.Lq === 0); //Filters out rows with the wrong location
@@ -74,11 +93,7 @@ function mapFun(inputObject) {
 
         if (result.L !== 0) { //Possible Location change
             state.L = result.L;
-
-            document.body.style.backgroundColor = mapBackgroundColor[state.L];
-            document.getElementById("output-log").style.color = mapTextColor[state.L];
-            document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
-            document.getElementById("text-input").style.color = mapTextColor[state.L];
+            setBackgroundColor(state.L);
         }
         if (result.G > 0 && !(state.G.includes(result.G))) {state.G.push(result.G);} //Possible Global Condition added
         if (result.G < 0 && (state.G.includes(-result.G))) {state.G = state.G.filter(g => g !== -result.G);} //Possible Global Condition removed
@@ -136,10 +151,7 @@ resetForm.addEventListener("submit", function(event) {
     document.getElementById("output-log").innerHTML = ""; //Clear output log
     document.getElementById("text-input").focus() //Refocus on text box (so they don't have to click it to type)
 
-    document.body.style.backgroundColor = mapBackgroundColor[state.L];
-    document.getElementById("output-log").style.color = mapTextColor[state.L];
-    document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
-    document.getElementById("text-input").style.color = mapTextColor[state.L];
+    setBackgroundColor(state.L);
 
     document.getElementById("text-input").placeholder = "look"; //Add "look" placeholder
 
@@ -224,7 +236,4 @@ const saveData = localStorage.getItem("save");
 
 let state = saveData !== null ? JSON.parse(saveData) : newGame(); //Ternary operation, either converts the string to an object or gets a new game object
 
-document.body.style.backgroundColor = mapBackgroundColor[state.L];
-document.getElementById("output-log").style.color = mapTextColor[state.L];
-document.getElementById("text-input").style.borderColor = mapTextColor[state.L];
-document.getElementById("text-input").style.color = mapTextColor[state.L];
+setBackgroundColor(state.L);
