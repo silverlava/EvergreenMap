@@ -46,6 +46,30 @@ function parseInput(text) {
     };
 }
 
+function formatOutput(output) {
+    const fragment = document.createDocumentFragment();
+    const regex = /(\*\*(.+?)\*\*|\*(.+?)\*)/g;
+
+    let lastIndex = 0;
+
+    for (const match of output.matchAll(regex)) {
+        fragment.append(output.slice(lastIndex, match.index));
+
+        const element = document.createElement(
+            match[2] !== undefined ? "strong" : "em"
+        );
+
+        element.textContent = match[2] ?? match[3];
+        fragment.append(element);
+
+        lastIndex = match.index + match[0].length;
+    }
+
+    fragment.append(output.slice(lastIndex));
+
+    return fragment;
+}
+
 function setBackgroundColor(L) {
     document.body.style.backgroundColor = mapBackgroundColor[L];
     document.getElementById("output-log").style.color = mapTextColor[L];
@@ -129,7 +153,8 @@ inputForm.addEventListener("submit", function(event) {
     const outputLog = document.getElementById("output-log");
 
     const pre = document.createElement("pre");
-    pre.textContent = `> ${input}\n${output}`;
+    pre.append(`> ${input}\n`);
+    pre.append(formatOutput(output));
 
     outputLog.append(pre);
     outputLog.scrollTop = outputLog.scrollHeight;
