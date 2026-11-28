@@ -47,6 +47,9 @@ function parseInput(text) {
 }
 
 function formatOutput(output) {
+    //Converts *italics* and **bold** markdown into HTML.
+    //This function was written by AI because it's complicated and doing it myself would've been a ton of work for a tiny feature.
+    //It was either AI or I leave the asterisks in.
     const fragment = document.createDocumentFragment();
     const regex = /(\*\*(.+?)\*\*|\*(.+?)\*)/g;
 
@@ -258,7 +261,6 @@ expansion3Form.addEventListener("submit", function(event){
 
 // Upon page load
 const saveData = localStorage.getItem("save");
-
 let state = saveData !== null ? JSON.parse(saveData) : newGame(); //Ternary operation, either converts the string to an object or gets a new game object
 
 setBackgroundColor(state.L);

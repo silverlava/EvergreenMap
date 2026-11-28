@@ -33,7 +33,7 @@ pre {
 }
 
 #output-log {
-    height: 400px;
+    height: 600px;
     width: 800px;
     overflow-y: auto;
     transition: color 0.5s ease;
